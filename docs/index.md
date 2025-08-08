@@ -2,7 +2,7 @@
 
 Welcome to the documentation for the **Delta** package.
 
-Delta Kanban is a Django-based project and task management tool designed to help teams and individuals organize, track, and manage their work efficiently.
+Delta is a Django-based project and task management tool designed to help teams and individuals organize, track, and manage their work efficiently.
 
 ## Features
 
