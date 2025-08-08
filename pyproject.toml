@@ -20,5 +20,8 @@ dev = [
     "pytest",
     "black",
     "mypy",
-    "python-dotenv"
+    "python-dotenv",
+    "mkdocs",
+    "mkdocs-material",
+    "mkdocstrings[python]",
 ]
