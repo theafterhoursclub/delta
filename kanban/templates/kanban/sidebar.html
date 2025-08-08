@@ -1,0 +1,30 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'kanban/colors.css' %}">
+<div class="d-flex flex-column flex-shrink-0 p-3 bg-deep-teal text-mint-green" style="width: 220px; min-height: 100vh;">
+    <a href="{% url 'home' %}" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-sky-blue text-decoration-none">
+        <span class="fs-4">Delta</span>
+    </a>
+    <hr class="border-mint-green">
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+            <a href="{% url 'task_list' %}" class="nav-link text-mint-green">
+                Task List
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'kanban_board' %}" class="nav-link text-mint-green">
+                Kanban Board
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'create_task' %}" class="nav-link text-mint-green">
+                Create Task
+            </a>
+        </li>
+        <!-- Add more links as needed -->
+    </ul>
+    <hr class="border-mint-green">
+    <div class="dropdown">
+        <!-- Placeholder for user/account dropdown if needed -->
+    </div>
+</div>

@@ -1,34 +1,61 @@
 {% extends "base.html" %}
 {% load kanban_extras %}
+{% load static %}
 {% block content %}
-<h1 class="mb-4">Kanban Board</h1>
-<div class="row">
-    {% for status in statuses %}
-    <div class="col-md-3">
-        <div class="card mb-3">
-            <div class="card-header text-center text-uppercase fw-bold bg-light">
-                {{ title }}
-            </div>
-            <div class="card-body p-2" style="min-height: 200px;">
-                <div id="column-{{ status }}" class="kanban-column" data-status="{{ status }}">
-                    {% for task in tasks_by_status|dict_get:status %}
-                    <div class="card mb-3 kanban-task-card" data-task-id="{{ task.id }}">
-                        <div class="card-body p-2">
-                            <h5 class="card-title mb-1">{{ task.title }}</h5>
-                            <p class="card-text mb-1">{{ task.description }}</p>
-                            {% if task.due_date %}
-                            <div class="text-muted small">Due: {{ task.due_date }}</div>
-                            {% endif %}
+<link rel="stylesheet" href="{% static 'kanban/colors.css' %}">
+<style>
+.kanban-task-card {
+    background: #fff !important;
+    color: var(--deep-teal);
+    border: 1px solid var(--deep-teal);
+    border-radius: 6px;
+}
+.kanban-task-card .card-title,
+.kanban-task-card .card-text {
+    color: var(--deep-teal);
+}
+.kanban-task-card .text-muted {
+    color: var(--deep-teal) !important;
+    opacity: 0.7;
+}
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-auto p-0">
+            {% include "kanban/sidebar.html" %}
+        </div>
+        <div class="col">
+            <h1 class="mb-4">Kanban Board</h1>
+            <div class="row">
+                {% for status in statuses %}
+                <div class="col-md-3">
+                    <div class="card mb-3">
+                        <div class="card-header text-center text-uppercase fw-bold bg-light">
+                            {{ title }}
+                        </div>
+                        <div class="card-body p-2" style="min-height: 200px;">
+                            <div id="column-{{ status }}" class="kanban-column" data-status="{{ status }}">
+                                {% for task in tasks_by_status|dict_get:status %}
+                                <div class="card mb-3 kanban-task-card" data-task-id="{{ task.id }}">
+                                    <div class="card-body p-2">
+                                        <h5 class="card-title mb-1">{{ task.title }}</h5>
+                                        <p class="card-text mb-1">{{ task.description }}</p>
+                                        {% if task.due_date %}
+                                        <div class="text-muted small">Due: {{ task.due_date }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% empty %}
+                                <div class="text-muted small text-center no-tasks-msg">No tasks</div>
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
-                    {% empty %}
-                    <div class="text-muted small text-center no-tasks-msg">No tasks</div>
-                    {% endfor %}
                 </div>
+                {% endfor %}
             </div>
         </div>
     </div>
-    {% endfor %}
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
