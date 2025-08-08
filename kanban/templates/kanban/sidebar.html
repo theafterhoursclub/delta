@@ -1,24 +1,70 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'kanban/colors.css' %}">
-<div class="d-flex flex-column flex-shrink-0 p-3 bg-deep-teal text-mint-green" style="width: 220px; min-height: 100vh;">
+<style>
+    .sidebar-collapsed {
+        width: 60px !important;
+        transition: width 0.5s;
+    }
+    .sidebar-expanded {
+        width: 220px !important;
+        transition: width 0.5s;
+    }
+    .sidebar-toggle-btn {
+        background: none;
+        border: none;
+        color: var(--mint-green);
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        outline: none;
+        cursor: pointer;
+    }
+    .sidebar-hide-label {
+        display: none;
+    }
+    .sidebar-expanded .sidebar-hide-label {
+        display: inline;
+    }
+    .sidebar-collapsed .sidebar-hide-label {
+        display: none;
+    }
+    .sidebar-collapsed .nav-link span,
+    .sidebar-collapsed .fs-4 {
+        display: none;
+    }
+    .sidebar-collapsed .nav-link {
+        text-align: center;
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }
+    .sidebar-collapsed .nav-link i {
+        font-size: 1.2rem;
+    }
+</style>
+<div id="sidebar" class="d-flex flex-column flex-shrink-0 p-3 bg-deep-teal text-mint-green sidebar-expanded" style="min-height: 100vh;">
+    <button class="sidebar-toggle-btn" id="sidebarToggle" title="Toggle sidebar">
+        <span id="sidebarToggleIcon">&#9776;</span>
+    </button>
     <a href="{% url 'home' %}" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-sky-blue text-decoration-none">
-        <span class="fs-4">Delta</span>
+        <span class="fs-4 sidebar-hide-label">Delta</span>
     </a>
     <hr class="border-mint-green">
     <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
             <a href="{% url 'task_list' %}" class="nav-link text-mint-green">
-                Task List
+                <i class="bi bi-list-task"></i>
+                <span class="sidebar-hide-label">Task List</span>
             </a>
         </li>
         <li>
             <a href="{% url 'kanban_board' %}" class="nav-link text-mint-green">
-                Kanban Board
+                <i class="bi bi-columns-gap"></i>
+                <span class="sidebar-hide-label">Kanban Board</span>
             </a>
         </li>
         <li>
             <a href="{% url 'create_task' %}" class="nav-link text-mint-green">
-                Create Task
+                <i class="bi bi-plus-square"></i>
+                <span class="sidebar-hide-label">Create Task</span>
             </a>
         </li>
         <!-- Add more links as needed -->
@@ -28,3 +74,21 @@
         <!-- Placeholder for user/account dropdown if needed -->
     </div>
 </div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const sidebar = document.getElementById('sidebar');
+        const toggleBtn = document.getElementById('sidebarToggle');
+        let expanded = true;
+        toggleBtn.addEventListener('click', function() {
+            expanded = !expanded;
+            if (expanded) {
+                sidebar.classList.remove('sidebar-collapsed');
+                sidebar.classList.add('sidebar-expanded');
+            } else {
+                sidebar.classList.remove('sidebar-expanded');
+                sidebar.classList.add('sidebar-collapsed');
+            }
+        });
+    });
+</script>
