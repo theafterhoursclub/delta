@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load kanban_extras %}
+{% block content %}
+<h1 class="mb-4">Kanban Board</h1>
+<div class="row">
+    {% for status in statuses %}
+    <div class="col-md-3">
+        <div class="card mb-3">
+            <div class="card-header text-center text-uppercase fw-bold bg-light">
+                {{ title }}
+            </div>
+            <div class="card-body p-2" style="min-height: 200px;">
+                <div id="column-{{ status }}" class="kanban-column" data-status="{{ status }}">
+                    {% for task in tasks_by_status|dict_get:status %}
+                    <div class="card mb-3 kanban-task-card" data-task-id="{{ task.id }}">
+                        <div class="card-body p-2">
+                            <h5 class="card-title mb-1">{{ task.title }}</h5>
+                            <p class="card-text mb-1">{{ task.description }}</p>
+                            {% if task.due_date %}
+                            <div class="text-muted small">Due: {{ task.due_date }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="text-muted small text-center">No tasks</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const statuses = {{ statuses|safe }};
+    statuses.forEach(function(status) {
+        new Sortable(document.getElementById('column-' + status), {
+            group: 'kanban',
+            animation: 150,
+            onEnd: function (evt) {
+                const taskId = evt.item.getAttribute('data-task-id');
+                const newStatus = evt.to.getAttribute('data-status');
+                const order = Array.from(evt.to.children)
+                    .filter(child => child.classList.contains('kanban-task-card'))
+                    .map(child => child.getAttribute('data-task-id'));
+                fetch("/kanban/reorder/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": "{{ csrf_token }}",
+                    },
+                    body: JSON.stringify({
+                        task_id: taskId,
+                        new_status: newStatus,
+                        order: order
+                    }),
+                });
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <title>Kanban</title>
+</head>
+<body>
+    {% block content %}{% endblock %}
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'sortable/Sortable.min.js' %}"></script>
+</body>
+</html>
