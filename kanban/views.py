@@ -46,17 +46,12 @@ def edit_task(request, pk):
 def reorder_tasks(request):
     if request.method == "POST":
         data = json.loads(request.body)
-        order = data.get("order", [])
-        new_status = data.get("new_status")
-        # Update order and status for each task in the column
-        for idx, task_id in enumerate(order):
-            try:
-                task = Task.objects.get(id=task_id)
-                if new_status:
-                    task.status = new_status
-                task.order = idx  # Make sure you have an 'order' field in your Task model
-                task.save()
-            except Task.DoesNotExist:
-                continue
+        status = data.get("status")
+        ordered_ids = data.get("ordered_ids", [])
+
+        # Update the order and status for each task in the new order
+        for idx, task_id in enumerate(ordered_ids):
+            Task.objects.filter(id=task_id).update(order=idx, status=status)
+
         return JsonResponse({"success": True})
     return JsonResponse({"success": False}, status=400)
