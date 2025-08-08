@@ -1,0 +1,83 @@
+:root {
+    --mint-green: #D1E8E2;
+    --deep-teal: #19747E;
+    --sky-blue: #A9D6E5;
+    --light-gray: #E2E2E2;
+    --white: #fff;
+}
+
+/* Example usage */
+.bg-mint-green { background-color: var(--mint-green) !important; }
+.bg-deep-teal { background-color: var(--deep-teal) !important; }
+.bg-sky-blue { background-color: var(--sky-blue) !important; }
+.bg-light-gray { background-color: var(--light-gray) !important; }
+.bg-white {background-color: var(--white)!important; }
+
+.text-mint-green { color: var(--mint-green) !important; }
+.text-deep-teal { color: var(--deep-teal) !important; }
+.text-sky-blue { color: var(--sky-blue) !important; }
+.text-light-gray { color: var(--light-gray) !important; }
+
+.border-mint-green { border-color: var(--mint-green) !important; }
+.border-deep-teal { border-color: var(--deep-teal) !important; }
+.border-sky-blue { border-color: var(--sky-blue) !important; }
+.border-light-gray { border-color: var(--light-gray) !important; }
+
+/* Table and Kanban color schemes */
+body {
+    background: var(--light-gray);
+}
+.table thead {
+    background: var(--deep-teal);
+    color: var(--mint-green);
+}
+.table tbody tr {
+    background: var(--mint-green);
+    color: var(--deep-teal);
+}
+.table tbody tr:nth-child(even) {
+    background: var(--sky-blue);
+}
+.table-bordered {
+    border-color: var(--deep-teal) !important;
+}
+.table-bordered th, .table-bordered td {
+    border-color: var(--deep-teal) !important;
+}
+
+/* Kanban board */
+.kanban-column {
+    background: var(--mint-green);
+    border-radius: 8px;
+    padding: 8px;
+    min-height: 300px;
+}
+.kanban-task-card {
+    background: var(--sky-blue);
+    color: var(--deep-teal);
+    border: 1px solid var(--deep-teal);
+    border-radius: 6px;
+}
+.kanban-task-card .card-title,
+.kanban-task-card .card-text {
+    color: var(--deep-teal);
+}
+.kanban-task-card .text-muted {
+    color: var(--deep-teal) !important;
+    opacity: 0.7;
+}
+.card-header {
+    background: var(--deep-teal) !important;
+    color: var(--mint-green) !important;
+    border-radius: 8px 8px 0 0;
+}
+
+/* Sidebar */
+.sidebar-custom .nav-link.active,
+.sidebar-custom .nav-link:hover {
+    background: var(--sky-blue) !important;
+    color: var(--deep-teal) !important;
+}
+.sidebar-custom .fs-4 {
+    color: var(--sky-blue);
+}
