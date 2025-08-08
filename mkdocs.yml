@@ -2,6 +2,29 @@ site_name: Delta
 repo_url: https://github.com/theafterhoursclub/delta
 theme:
   name: material
+  palette:
+    - scheme: default
+      primary: teal
+      accent: light blue
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      primary: teal
+      accent: light blue
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  logo: assets/logo.png  # Optional: add your logo here
+  favicon: assets/favicon.ico  # Optional: add your favicon here
+  features:
+    - content.code.copy
+    - content.code.annotate
+extra_css:
+  - styles/kanban-docs-colors.css
 nav:
   - Home: index.md
   - Installation: installation.md
@@ -17,5 +40,8 @@ plugins:
             show_source: true
             docstring_style: google
             merge_init_into_class: true
-
-
+markdown_extensions:
+  - codehilite
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
