@@ -1,0 +1,21 @@
+site_name: Delta
+repo_url: https://github.com/theafterhoursclub/delta
+theme:
+  name: material
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Usage: usage.md
+  - Kanban Module: kanban.md
+  - Users Module: users.md
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_source: true
+            docstring_style: google
+            merge_init_into_class: true
+
+
