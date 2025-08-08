@@ -15,6 +15,7 @@ class Task(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='backlog')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    assigned_to = models.ForeignKey('users.CustomUser', on_delete=models.SET_NULL, null=True)
     due_date = models.DateField(blank=True, null=True)
     order = models.PositiveIntegerField(default=0)
 
