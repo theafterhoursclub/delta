@@ -27,8 +27,8 @@
 }
 
 .md-typeset code, .md-typeset pre {
-    background-color: var(--md-primary-fg-color) !important;
-    color: #fff !important; /* Use a dark color for contrast */
+    background-color: var(--md-accent-fg-color) !important;
+    color: #222 !important; /* Use a dark color for contrast */
 }
 
 /* Improve inline code contrast in headings and links */
