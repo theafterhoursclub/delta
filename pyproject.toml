@@ -1,0 +1,24 @@
+[project]
+name = "delta"
+version = "0.1.0"
+description = "The project that is the difference"
+authors = [
+    { name = "Philip Harrison", email = "phil.m.harrison@hotmail.co.uk" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "asgiref==3.9.1",
+    "Django==5.2.5",
+    "sqlparse==0.5.3",
+    "tzdata==2025.2",
+    "uv==0.8.6"
+]
+
+[project.optional-dependencies]
+dev = [
+    # Add your development dependencies here, for example:
+    "pytest",
+    "black",
+    "mypy",
+    "python-dotenv"
+]

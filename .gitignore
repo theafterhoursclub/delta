@@ -1,0 +1,37 @@
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+venv/
+.env/
+.venv/
+ENV/
+env/
+
+# Environment variable files
+.env
+
+# Django migration files (optional)
+*/migrations/*.pyc
+*/migrations/*.pyo
+*/migrations/__pycache__/
+# Uncomment the next line if you don't want to track migration scripts
+# */migrations/*.py
+
+# IDE/editor config files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# SQLite database file
+db.sqlite3
