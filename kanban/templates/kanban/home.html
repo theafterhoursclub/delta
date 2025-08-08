@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+    }
+    .delta-bg {
+        min-height: 100vh;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: radial-gradient(circle, #343a40 0%, #23272b 100%);
+    }
+    .delta-title {
+        color: #fff;
+        text-shadow: 0 2px 8px #000a;
+        cursor: pointer;
+        transition: text-decoration 0.2s;
+    }
+    .delta-title:hover {
+        text-decoration: underline;
+    }
+    .delta-subtitle {
+        color: #fff;
+        opacity: 0.85;
+        text-shadow: 0 1px 4px #000a;
+    }
+</style>
+<div class="delta-bg">
+    <a href="{% url 'task_list' %}" style="text-decoration: none;">
+        <h1 class="delta-title text-center mb-3">Delta</h1>
+    </a>
+    <h4 class="delta-subtitle text-center">Feel the difference</h4>
+</div>
+{% endblock %}

@@ -6,6 +6,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import json
 
+def home(request):
+    return render(request, "kanban/home.html")
+
 def task_list(request):
     tasks = Task.objects.all()
     return render(request, "kanban/task_list.html", {"tasks": tasks})
