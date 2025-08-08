@@ -1,0 +1,44 @@
+:root {
+    --md-primary-fg-color: #19747E;
+    --md-primary-bg-color: #D1E8E2;
+    --md-accent-fg-color: #A9D6E5;
+    --md-default-bg-color: #E2E2E2;
+    --md-typeset-a-color: #19747E;
+}
+
+.md-header, .md-footer {
+    background-color: var(--md-primary-fg-color) !important;
+}
+
+.md-nav__title, .md-nav__link, .md-nav__item--active > .md-nav__link {
+    color: var(--md-primary-fg-color) !important;
+}
+
+.md-typeset {
+    background-color: var(--md-default-bg-color) !important;
+}
+
+.md-typeset h1, .md-typeset h2, .md-typeset h3, .md-typeset h4, .md-typeset h5, .md-typeset h6 {
+    color: var(--md-primary-fg-color);
+}
+
+.md-typeset a {
+    color: var(--md-typeset-a-color);
+}
+
+.md-typeset code, .md-typeset pre {
+    background-color: var(--md-primary-fg-color) !important;
+    color: #fff !important; /* Use a dark color for contrast */
+}
+
+/* Improve inline code contrast in headings and links */
+.md-typeset h1 code,
+.md-typeset h2 code,
+.md-typeset h3 code,
+.md-typeset h4 code,
+.md-typeset h5 code,
+.md-typeset h6 code,
+.md-typeset a code {
+    color: #222 !important;
+    background-color: var(--md-accent-fg-color) !important;
+}
