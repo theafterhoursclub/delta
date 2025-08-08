@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from .models import Task
 from .forms import TaskForm
 from collections import defaultdict
-from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import json
 
@@ -45,7 +44,6 @@ def edit_task(request, pk):
         form = TaskForm(instance=task)
     return render(request, "kanban/edit_task.html", {"form": form, "task": task})
 
-@csrf_exempt
 def reorder_tasks(request):
     if request.method == "POST":
         data = json.loads(request.body)
