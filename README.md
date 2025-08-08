@@ -17,7 +17,14 @@ The purpose of this package is to streamline project and task management, making
 
 1. Install dependencies from `pyproject.toml`.
 2. Run migrations to set up the database.
+```powershell
+python manage.py makemigrations
+python manage.py migrate
+```
 3. Start the Django development server.
+```powershell
+python manage.py runserver
+```
 4. Access the application in your browser to begin managing your projects and tasks.
 
 ---
