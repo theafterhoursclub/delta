@@ -7,22 +7,41 @@ STATIC_BOOTSTRAP = os.path.join(BASE_DIR, "static", "bootstrap")
 STATIC_SORTABLE = os.path.join(BASE_DIR, "static", "sortable")
 STATIC_AGGRID = os.path.join(BASE_DIR, "static", "ag-grid")
 
+
 def copy_file(src, dest):
     os.makedirs(os.path.dirname(dest), exist_ok=True)
     shutil.copy2(src, dest)
     print(f"Copied {src} -> {dest}")
 
+
 def main():
     files_to_copy = [
         # Bootstrap files
-        (os.path.join("bootstrap", "dist", "css", "bootstrap.min.css"), "css/bootstrap.min.css"),
-        (os.path.join("bootstrap", "dist", "js", "bootstrap.bundle.min.js"), "js/bootstrap.bundle.min.js"),
+        (
+            os.path.join("bootstrap", "dist", "css", "bootstrap.min.css"),
+            "css/bootstrap.min.css",
+        ),
+        (
+            os.path.join("bootstrap", "dist", "js", "bootstrap.bundle.min.js"),
+            "js/bootstrap.bundle.min.js",
+        ),
         # SortableJS file
         (os.path.join("sortablejs", "Sortable.min.js"), "Sortable.min.js"),
         # AG Grid files
-        (os.path.join("ag-grid-community", "dist", "ag-grid-community.min.noStyle.js"), "ag-grid-community.min.noStyle.js"),
-        (os.path.join("ag-grid-community", "styles", "ag-grid.css"), "styles/ag-grid.css"),
-        (os.path.join("ag-grid-community", "styles", "ag-theme-alpine.css"), "styles/ag-theme-alpine.css"),
+        (
+            os.path.join(
+                "ag-grid-community", "dist", "ag-grid-community.min.noStyle.js"
+            ),
+            "ag-grid-community.min.noStyle.js",
+        ),
+        (
+            os.path.join("ag-grid-community", "styles", "ag-grid.css"),
+            "styles/ag-grid.css",
+        ),
+        (
+            os.path.join("ag-grid-community", "styles", "ag-theme-alpine.css"),
+            "styles/ag-theme-alpine.css",
+        ),
     ]
     for src_rel, dest_rel in files_to_copy:
         if "bootstrap" in src_rel:
@@ -37,6 +56,7 @@ def main():
         else:
             continue
         copy_file(src, dest)
+
 
 if __name__ == "__main__":
     main()

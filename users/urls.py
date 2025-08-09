@@ -7,4 +7,3 @@ urlpatterns = [
     # Example:
     # path('profile/', views.profile, name='profile'),
 ]
-
