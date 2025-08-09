@@ -51,12 +51,23 @@ from `docs/styles/kanban-docs-colors.css` as configured in `mkdocs.yml`.
     SECRET_KEY=your-secret-key
     ```
 
-7. **Run the development server**
+7. **Set up pre-commit hooks**
+
+    This project uses the [`pre-commit`](https://pre-commit.com/) package to ensure code quality by running both `black` and `pylint` before any commit.  
+    To enable this, run:
+
+    ```sh
+    pre-commit install
+    ```
+
+    Now, every time you commit, `black` and `pylint` will automatically check your code.
+
+8. **Run the development server**
 
     ```sh
     python manage.py runserver
     ```
 
-8. **Access the app**
+9. **Access the app**
 
     Open [http://localhost:8000](http://localhost:8000) in your browser.
