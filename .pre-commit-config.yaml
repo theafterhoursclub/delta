@@ -3,4 +3,7 @@ repos:
     rev: 24.4.2
     hooks:
       - id: black
-
+  - repo: https://github.com/pylint-dev/pylint
+    rev: v3.3.8
+    hooks:
+      - id: pylint
