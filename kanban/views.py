@@ -53,6 +53,7 @@ def edit_task(request, pk):
         form = TaskForm(instance=task)
     return render(request, "kanban/edit_task.html", {"form": form, "task": task})
 
+
 def reorder_tasks(request):
     if request.method == "POST":
         data = json.loads(request.body)
