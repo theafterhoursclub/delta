@@ -1,11 +1,5 @@
 # Installation
 
-<!--
-NOTE: Remove any <style> blocks from markdown files.
-The MkDocs Material theme will automatically include and apply your custom CSS
-from `docs/styles/kanban-docs-colors.css` as configured in `mkdocs.yml`.
--->
-
 ## Prerequisites
 
 - Python 3.12+
