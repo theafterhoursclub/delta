@@ -33,6 +33,7 @@ def kanban_board(request):
         "statuses": statuses,
     })
 
+
 def edit_task(request, pk):
     task = Task.objects.get(pk=pk)
     if request.method == "POST":
