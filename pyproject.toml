@@ -24,4 +24,10 @@ dev = [
     "mkdocs",
     "mkdocs-material",
     "mkdocstrings[python]",
+    "pre-commit",
+    "pylint",
 ]
+
+[tool.black]
+line-length = 88
+target-version = ['py312']
