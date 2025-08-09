@@ -1,3 +1,5 @@
+"""Script to copy selected files from node_modules to the Django static directory."""
+
 import os
 import shutil
 
@@ -9,12 +11,14 @@ STATIC_AGGRID = os.path.join(BASE_DIR, "static", "ag-grid")
 
 
 def copy_file(src, dest):
+    """Copy a single file from src to dest, creating directories as needed."""
     os.makedirs(os.path.dirname(dest), exist_ok=True)
     shutil.copy2(src, dest)
     print(f"Copied {src} -> {dest}")
 
 
 def main():
+    """Copy required frontend dependencies from node_modules to static folders."""
     files_to_copy = [
         # Bootstrap files
         (
