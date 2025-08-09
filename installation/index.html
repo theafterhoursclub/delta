@@ -483,12 +483,6 @@
 
 
 <h1 id="installation">Installation</h1>
-<!--
-NOTE: Remove any <style> blocks from markdown files.
-The MkDocs Material theme will automatically include and apply your custom CSS
-from `docs/styles/kanban-docs-colors.css` as configured in `mkdocs.yml`.
--->
-
 <h2 id="prerequisites">Prerequisites</h2>
 <ul>
 <li>Python 3.12+</li>
@@ -527,6 +521,14 @@ from `docs/styles/kanban-docs-colors.css` as configured in `mkdocs.yml`.
 <p><strong>Create a <code>.env</code> file</strong></p>
 <div class="highlight"><pre><span></span><code>SECRET_KEY=your-secret-key
 </code></pre></div>
+</li>
+<li>
+<p><strong>Set up pre-commit hooks</strong></p>
+<p>This project uses the <a href="https://pre-commit.com/"><code>pre-commit</code></a> package to ensure code quality by running both <code>black</code> and <code>pylint</code> before any commit.<br />
+To enable this, run:</p>
+<div class="highlight"><pre><span></span><code>pre-commit<span class="w"> </span>install
+</code></pre></div>
+<p>Now, every time you commit, <code>black</code> and <code>pylint</code> will automatically check your code.</p>
 </li>
 <li>
 <p><strong>Run the development server</strong></p>
