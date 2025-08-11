@@ -48,7 +48,9 @@
         <span class="fs-4 sidebar-hide-label">Delta</span>
     </a>
     <hr class="border-mint-green">
+
     <ul class="nav nav-pills flex-column mb-auto">
+        <span class="sidebar-hide-label fw-bold ms-2 mb-2 d-block">Kanban</span>
         <li class="nav-item">
             <a href="{% url 'backlog' %}" class="nav-link text-mint-green">
                 <i class="bi bi-list-task"></i>
@@ -73,8 +75,30 @@
                 <span class="sidebar-hide-label">Create Task</span>
             </a>
         </li>
-        <!-- Add more links as needed -->
-    </ul>
+        <hr class="border-mint-green">
+        <span class="sidebar-hide-label fw-bold ms-2 mb-2 d-block">User</span>
+        <li>
+            <a href="{% url 'signup' %}" class="nav-link text-mint-green">
+                <i class="bi bi-person-plus"></i>
+                <span class="sidebar-hide-label">Sign Up</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'create_organisation' %}" class="nav-link text-mint-green">
+                <i class="bi bi-building"></i>
+                <span class="sidebar-hide-label">Create Organisation</span>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'create_team' %}" class="nav-link text-mint-green">
+                <i class="bi bi-people"></i>
+                <span class="sidebar-hide-label">Create Team</span>
+            </a>
+        </li>
+        <!-- Add more user-related links as needed -->
+        </ul>
+
+
     <hr class="border-mint-green">
     <div class="dropdown">
         <!-- Placeholder for user/account dropdown if needed -->
