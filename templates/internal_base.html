@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-auto p-0">
+            {% include "kanban/sidebar.html" %}
+        </div>
+        <div class="col">
+            {% block internal %}{% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}
