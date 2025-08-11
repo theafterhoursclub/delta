@@ -48,6 +48,17 @@ class Task(models.Model):
     order = models.PositiveIntegerField(default=0)
     list_order = models.PositiveIntegerField(default=0)
 
+    # Link to another Task, but only if it's a Story
+    linked_story = models.ForeignKey(
+        "self",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="linked_tasks",
+        limit_choices_to={"task_type": "story"},
+        help_text="Link this task to a Story (another Task with type 'Story').",
+    )
+
     def __str__(self):
         # Fix: Ensure __str__ always returns a string
         return str(self.title)
@@ -106,3 +117,18 @@ class Task(models.Model):
     def list_ordered(cls):
         """Return queryset ordered by 'list_order'."""
         return cls.objects.order_by("list_order")
+
+    def save(self, *args, **kwargs):
+        if self._state.adding and not self.list_order:
+            max_order = Task.objects.count()
+            self.list_order = max_order + 1
+        super().save(*args, **kwargs)
+
+
+class Sprint(models.Model):
+    """This holds information about a sprint"""
+
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
