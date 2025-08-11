@@ -20,9 +20,10 @@
                         {
                             id : "{{task.id}}",
                             title: "{{ task.title }}",
+                            type: "{{ task.task_type }}",
                             desc: "{{ task.description | striptags  | escapejs }}",
                             status: "{{ task.get_status_display }}",
-                            due_date: "{{ task.due_date }}",
+                            due_date: "{{ task.get_due_display }}",
                             linked_story: "{{ task.linked_story }}",
                         },
                         {% endfor %}
@@ -39,7 +40,16 @@
                             filter: false
                         },
                         { field: "id", headerName: "ID", maxWidth: 20 },
-                        { field: "title", headerName: "Title", filter: 'agTextColumnFilter' },
+                        {
+                            field: "title",
+                            headerName: "Title",
+                            filter: 'agTextColumnFilter',
+                            cellEditor: 'agTextCellEditor',
+                            cellEditorParams: {
+                                maxLength: 50
+                            }
+                        },
+                        { field: "type", headerName: "Type", filter: 'agTextColumnFilter' },
                         { field: "desc", headerName: "Description", filter: 'agTextColumnFilter'  },
                         { field: "status", headerName: "Status", filter: 'agTextColumnFilter'  },
                         { field: "due_date", headerName: "Due Date" },
