@@ -2,6 +2,7 @@
   "dependencies": {
     "ag-grid-community": "^34.1.1",
     "bootstrap": "^5.3.7",
-    "sortablejs": "^1.15.6"
+    "sortablejs": "^1.15.6",
+    "tinymce": "^8.0.1"
   }
 }
