@@ -19,7 +19,9 @@ class TaskForm(forms.ModelForm):
         ]
         widgets = {
             "title": forms.TextInput(attrs={"class": "form-control"}),
-            "description": forms.Textarea(attrs={"class": "form-control"}),
+            "description": forms.Textarea(
+                attrs={"class": "form-control", "id": "id_description"}
+            ),
             "status": forms.Select(attrs={"class": "form-control"}),
             "task_type": forms.Select(attrs={"class": "form-control"}),
             "due_date": forms.DateInput(
