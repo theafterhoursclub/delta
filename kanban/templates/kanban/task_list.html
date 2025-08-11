@@ -46,7 +46,7 @@
                         {% for task in tasks %}
                         <tr data-task-id="{{ task.id }}">
                             <td>{{ task.title }}</td>
-                            <td>{{ task.description }}</td>
+                            <td>{{ task.description|safe }}</td>
                             <td>{{ task.get_status_display }}</td>
                             <td>{{ task.created_at }}</td>
                             <td>{{ task.due_date }}</td>
