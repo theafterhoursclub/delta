@@ -8,6 +8,7 @@ NODE_MODULES = os.path.join(BASE_DIR, "node_modules")
 STATIC_BOOTSTRAP = os.path.join(BASE_DIR, "static", "bootstrap")
 STATIC_SORTABLE = os.path.join(BASE_DIR, "static", "sortable")
 STATIC_AGGRID = os.path.join(BASE_DIR, "static", "ag-grid")
+STATIC_TINYMCE = os.path.join(BASE_DIR, "static", "tinymce")
 
 
 def copy_file(src, dest):
@@ -46,6 +47,8 @@ def main():
             os.path.join("ag-grid-community", "styles", "ag-theme-alpine.css"),
             "styles/ag-theme-alpine.css",
         ),
+        # TinyMCE file
+        (os.path.join("tinymce", "tinymce.min.js"), "tinymce.min.js"),
     ]
     for src_rel, dest_rel in files_to_copy:
         if "bootstrap" in src_rel:
@@ -57,6 +60,9 @@ def main():
         elif "ag-grid-community" in src_rel:
             src = os.path.join(NODE_MODULES, src_rel)
             dest = os.path.join(STATIC_AGGRID, dest_rel)
+        elif "tinymce" in src_rel:
+            src = os.path.join(NODE_MODULES, src_rel)
+            dest = os.path.join(STATIC_TINYMCE, dest_rel)
         else:
             continue
         copy_file(src, dest)
