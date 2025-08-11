@@ -1,85 +1,72 @@
 {% extends "internal_base.html" %}
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Task List</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'kanban/colors.css' %}">
-    <style>
-        .sortable-placeholder {
-            background: #f0f0f0;
-            height: 40px;
-        }
-        /* Optionally, highlight the row being dragged */
-        #sortable-task-table tr.sortable-chosen {
-            background: #e0eaff;
-        }
-        #sortable-task-table tr.sortable-ghost {
-            opacity: 0.5;
-        }
-        /* Make table rows show a move cursor to indicate draggability */
-        #sortable-task-table tr {
-            cursor: move;
-        }
-    </style>
-</head>
-<body>
+{%  load static %}
+{# Remove the extra <!DOCTYPE html>, <html>, <head>, <body> if using extends. Only define blocks. #}
+{% block internal %}
 
-    {% block internal %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col">
-                <h1>All Tasks</h1>
-                <input type="text" id="task-filter" class="form-control mb-2" placeholder="Filter tasks...">
-                <table class="table table-sm table-hover">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Description</th>
-                            <th>Status</th>
-                            <th>Created At</th>
-                            <th>Due Date</th>
-                            <th>WD</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-group-divider" id="sortable-task-table">
-                        {% for task in tasks %}
-                        <tr data-task-id="{{ task.id }}">
-                            <td>{{ task.title }}</td>
-                            <td>{{ task.description|striptags|truncatechars:40 }}</td>
-                            <td>{{ task.get_status_display }}</td>
-                            <td>{{ task.created_at }}</td>
-                            <td>{{ task.due_date }}</td>
-                            <td>{{ task.bau_working_day }}</td>
-                            <td>
-                                <a href="{% url 'edit_task' task.pk %}" class="btn btn-sm btn-primary">View</a>
-                            </td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="7" class="text-center">No tasks available.</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+    <h1>All Tasks</h1>
+    <div id="myGrid" style="width: 100%; height: 90%"></div>
+
     <script src="{% static 'sortable/sortable.min.js' %}"></script>
+    <script src="{% static 'ag-grid/ag-grid-community.min.noStyle.js' %}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Ensure Sortable is loaded and initialize after DOM is ready
-            if (typeof Sortable !== "undefined") {
-                new Sortable(document.getElementById('sortable-task-table'), {
-                    animation: 150,
-                    ghostClass: "sortable-ghost",
-                    chosenClass: "sortable-chosen",
-                    onEnd: function (evt) {
-                        // Collect the new order of task IDs
-                        var order = [];
-                        document.querySelectorAll('#sortable-task-table tr').forEach(function(row) {
-                            order.push(row.getAttribute('data-task-id'));
+            // AG-GRID INITIALIZATION
+            if (typeof agGrid !== "undefined" && document.querySelector("#myGrid")) {
+                const editTaskUrlPrefix = "/backlog/";
+
+                const gridOptions = {
+                    rowData: [
+                        {% for task in tasks %}
+                        {
+                            id : "{{task.id}}",
+                            title: "{{ task.title }}",
+                            desc: "{{ task.description | striptags  | escapejs }}",
+                            status: "{{ task.get_status_display }}",
+                            due_date: "{{ task.due_date }}",
+                            linked_story: "{{ task.linked_story }}",
+                        },
+                        {% endfor %}
+                    ],
+                    columnDefs: [
+                        {
+                            headerName: "",
+                            width: 30,
+                            minWidth: 20,
+                            maxWidth: 40,
+                            rowDrag: true,
+                            suppressMenu: true,
+                            sortable: false,
+                            filter: false
+                        },
+                        { field: "id", headerName: "ID", maxWidth: 20 },
+                        { field: "title", headerName: "Title", filter: 'agTextColumnFilter' },
+                        { field: "desc", headerName: "Description", filter: 'agTextColumnFilter'  },
+                        { field: "status", headerName: "Status", filter: 'agTextColumnFilter'  },
+                        { field: "due_date", headerName: "Due Date" },
+                        { field: "linked_story", headerName: "Linked Story", filter: 'agTextColumnFilter'  },
+                        {
+                            headerName: "Actions",
+                            field: "id",
+                            cellRenderer: function(params) {
+                                const url = editTaskUrlPrefix + params.value + "/edit/";
+                                return `<a href="${url}" class="btn btn-sm btn-primary">View</a>`;
+                            },
+                            width: 120,
+                            suppressMenu: true,
+                            sortable: false,
+                            filter: false
+                        }
+                    ],
+                    defaultColDef: {
+                        flex: 1,
+                    },
+                    rowDragManaged: true,
+                    animateRows: true,
+                    onRowDragEnd: function(event) {
+                        // Collect new order of task IDs
+                        const rowOrder = [];
+                        event.api.forEachNode(function(node) {
+                            rowOrder.push(node.data.id);
                         });
                         // Send the new order to reorder_list_tasks endpoint
                         fetch("{% url 'reorder_list_tasks' %}", {
@@ -88,27 +75,18 @@
                                 'Content-Type': 'application/json',
                                 'X-CSRFToken': '{{ csrf_token }}'
                             },
-                            body: JSON.stringify({ordered_ids: order})
+                            body: JSON.stringify({ordered_ids: rowOrder})
                         }).then(response => {
                             if (!response.ok) {
                                 alert('Failed to save new order.');
                             }
                         });
                     }
-                });
+                };
+                agGrid.createGrid(document.querySelector("#myGrid"), gridOptions);
             } else {
-                console.error("SortableJS not loaded!");
+                console.error("agGrid not loaded or #myGrid not found!");
             }
-            const filterInput = document.getElementById('task-filter');
-            filterInput.addEventListener('input', function() {
-                const filter = this.value.toLowerCase();
-                document.querySelectorAll('#sortable-task-table tr').forEach(function(row) {
-                    const text = row.textContent.toLowerCase();
-                    row.style.display = text.includes(filter) ? '' : 'none';
-                });
-            });
         });
     </script>
-    {% endblock %}
-</body>
-</html>
+{% endblock %}
