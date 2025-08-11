@@ -1,18 +1,15 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "internal_base.html" %}
+{% block internal %}
     <div class="row">
-        <div class="col-auto p-0">
-            {% include "kanban/sidebar.html" %}
-        </div>
         <div class="col">
             <h1 class="text-center mb-4">Create New Task</h1>
             <div class="d-flex justify-content-center align-items-center" style="min-height: 70vh;">
                 <div class="col-md-6 col-lg-5">
                     <div class="card p-4 shadow-sm bg-light">
-                        <form method="post">
+                        <form method="post" id="task-form">
                             {% csrf_token %}
                             {% for field in form %}
-                                <div class="mb-3">
+                                <div class="mb-3" id="field-{{ field.name }}">
                                     <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
                                     {{ field }}
                                     {% if field.help_text %}
@@ -33,4 +30,25 @@
             </div>
         </div>
     </div>
+    <script>
+        function toggleDueFields() {
+            const taskType = document.getElementById("id_task_type").value.toLowerCase();
+            const dueDateDiv = document.getElementById("field-due_date");
+            const bauWDDiv = document.getElementById("field-bau_working_day");
+            if (taskType === "bau") {
+                if (dueDateDiv) dueDateDiv.style.display = "none";
+                if (bauWDDiv) bauWDDiv.style.display = "";
+            } else {
+                if (dueDateDiv) dueDateDiv.style.display = "";
+                if (bauWDDiv) bauWDDiv.style.display = "none";
+            }
+        }
+        document.addEventListener("DOMContentLoaded", function() {
+            const taskTypeSelect = document.getElementById("id_task_type");
+            if (taskTypeSelect) {
+                taskTypeSelect.addEventListener("change", toggleDueFields);
+                toggleDueFields();
+            }
+        });
+    </script>
 {% endblock %}
