@@ -35,7 +35,7 @@ def kanban_board(request):
     """Render the Kanban board, grouping tasks by status and ordering by 'order'."""
     statuses = ["todo", "in_progress", "help", "done"]
     tasks_by_status = {status: [] for status in statuses}
-    for task in Task.objects.order_by("order"):
+    for task in Task.objects.exclude(task_type="story").order_by("order"):
         if task.status in tasks_by_status:
             tasks_by_status[task.status].append(task)
     return render(
@@ -44,6 +44,25 @@ def kanban_board(request):
         {
             "tasks_by_status": tasks_by_status,
             "statuses": statuses,
+            "task_type": "All Tasks",
+        },
+    )
+
+
+def story_board(request):
+    """Render the story board, grouping tasks by status and ordering by 'order'."""
+    statuses = ["todo", "in_progress", "help", "done"]
+    tasks_by_status = {status: [] for status in statuses}
+    for task in Task.objects.filter(task_type="story").order_by("order"):
+        if task.status in tasks_by_status:
+            tasks_by_status[task.status].append(task)
+    return render(
+        request,
+        "kanban/kanban_board.html",
+        {
+            "tasks_by_status": tasks_by_status,
+            "statuses": statuses,
+            "task_type": "All Stories",
         },
     )
 
