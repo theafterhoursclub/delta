@@ -122,7 +122,30 @@ class Task(models.Model):
         if self._state.adding and not self.list_order:
             max_order = Task.objects.count()
             self.list_order = max_order + 1
+
+        status_changed = False
+        if self.pk:
+            orig = Task.objects.get(pk=self.pk)
+            if orig.status != self.status:
+                status_changed = True
+        else:
+            status_changed = True  # New task, treat as status changed
+
         super().save(*args, **kwargs)
+
+        # If this task is linked to a story and status changed, update the story's status
+        if status_changed and self.linked_story:
+            # Example logic: set the story's status to the lowest status of all linked tasks
+            # (You can adjust this logic as needed)
+            linked_tasks = Task.objects.filter(linked_story=self.linked_story)
+            statuses = [t.status for t in linked_tasks]
+            # Define your own status priority/order if needed
+            status_order = ["todo", "in_progress", "help", "done"]
+            for s in status_order:
+                if s in statuses:
+                    self.linked_story.status = s
+                    self.linked_story.save(update_fields=["status"])
+                    break
 
 
 class Sprint(models.Model):
