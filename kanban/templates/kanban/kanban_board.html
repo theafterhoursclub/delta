@@ -39,10 +39,16 @@
                                 <div class="card mb-3 kanban-task-card" data-task-id="{{ task.id }}">
                                     <div class="card-body p-2">
                                         <h5 class="card-title mb-1">{{ task.title }}</h5>
-                                        <p class="card-text mb-1">{{ task.description }}</p>
+                                        <p class="card-text mb-1">
+                                            {{ task.description|striptags|truncatechars:40 }}
+                                        </p>
                                         {% if task.due_date %}
                                         <div class="text-muted small">Due: {{ task.due_date }}</div>
                                         {% endif %}
+                                        {% if task.bau_working_day %}
+                                        <div class="text-muted small">Due: {{ task.bau_working_day }}</div>
+                                        {% endif %}
+                                        <a href="{% url 'edit_task' task.pk %}" class="btn btn-sm bg-mint-green">Edit</a>
                                     </div>
                                 </div>
                                 {% empty %}
