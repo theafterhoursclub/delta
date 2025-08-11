@@ -1,21 +1,26 @@
+"""Views for the Kanban application."""
+
+# pylint: disable=no-member
+import json
 from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from .models import Task
 from .forms import TaskForm
-from collections import defaultdict
-from django.http import JsonResponse
-import json
 
 
 def home(request):
+    """Render the home page."""
     return render(request, "kanban/home.html")
 
 
 def task_list(request):
-    tasks = Task.objects.all()
+    """Render the task list, ordered by list_order."""
+    tasks = Task.list_ordered()
     return render(request, "kanban/task_list.html", {"tasks": tasks})
 
 
 def create_task(request):
+    """Create a new task."""
     if request.method == "POST":
         form = TaskForm(request.POST)
         if form.is_valid():
@@ -27,9 +32,10 @@ def create_task(request):
 
 
 def kanban_board(request):
+    """Render the Kanban board, grouping tasks by status and ordering by 'order'."""
     statuses = ["todo", "in_progress", "help", "done"]
     tasks_by_status = {status: [] for status in statuses}
-    for task in Task.objects.all():
+    for task in Task.objects.order_by("order"):
         if task.status in tasks_by_status:
             tasks_by_status[task.status].append(task)
     return render(
@@ -43,6 +49,7 @@ def kanban_board(request):
 
 
 def edit_task(request, pk):
+    """Edit an existing task."""
     task = Task.objects.get(pk=pk)
     if request.method == "POST":
         form = TaskForm(request.POST, instance=task)
@@ -55,6 +62,7 @@ def edit_task(request, pk):
 
 
 def reorder_tasks(request):
+    """Reorder tasks by 'order' and update their status."""
     if request.method == "POST":
         data = json.loads(request.body)
         status = data.get("status")
@@ -63,6 +71,20 @@ def reorder_tasks(request):
         # Update the order and status for each task in the new order
         for idx, task_id in enumerate(ordered_ids):
             Task.objects.filter(id=task_id).update(order=idx, status=status)
+
+        return JsonResponse({"success": True})
+    return JsonResponse({"success": False}, status=400)
+
+
+def reorder_list_tasks(request):
+    """Reorder tasks by 'list_order'."""
+    if request.method == "POST":
+        data = json.loads(request.body)
+        ordered_ids = data.get("ordered_ids", [])
+
+        # Update the list_order for each task in the new order
+        for idx, task_id in enumerate(ordered_ids):
+            Task.objects.filter(id=task_id).update(list_order=idx)
 
         return JsonResponse({"success": True})
     return JsonResponse({"success": False}, status=400)
