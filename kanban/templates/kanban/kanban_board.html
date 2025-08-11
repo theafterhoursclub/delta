@@ -25,7 +25,7 @@
             {% include "kanban/sidebar.html" %}
         </div>
         <div class="col">
-            <h1 class="mb-4">Kanban Board</h1>
+            <h1 class="mb-4">{{ task_type }}</h1>
             <div class="row">
                 {% for status in statuses %}
                 <div class="col-md-3">
