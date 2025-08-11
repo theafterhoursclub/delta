@@ -13,10 +13,10 @@ def home(request):
     return render(request, "kanban/home.html")
 
 
-def task_list(request):
+def backlog(request):
     """Render the task list, ordered by list_order."""
     tasks = Task.list_ordered()
-    return render(request, "kanban/task_list.html", {"tasks": tasks})
+    return render(request, "kanban/backlog.html", {"tasks": tasks})
 
 
 def create_task(request):
@@ -25,7 +25,7 @@ def create_task(request):
         form = TaskForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("task_list")
+            return redirect("backlog")
     else:
         form = TaskForm()
     return render(request, "kanban/create_task.html", {"form": form})
@@ -55,7 +55,7 @@ def edit_task(request, pk):
         form = TaskForm(request.POST, instance=task)
         if form.is_valid():
             form.save()
-            return redirect("task_list")
+            return redirect("backlog")
     else:
         form = TaskForm(instance=task)
     return render(request, "kanban/edit_task.html", {"form": form, "task": task})
