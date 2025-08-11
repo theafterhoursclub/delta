@@ -14,6 +14,7 @@ class TaskForm(forms.ModelForm):
             "description",
             "status",
             "task_type",
+            "linked_story",
             "due_date",
             "bau_working_day",
         ]
@@ -24,6 +25,7 @@ class TaskForm(forms.ModelForm):
             ),
             "status": forms.Select(attrs={"class": "form-control"}),
             "task_type": forms.Select(attrs={"class": "form-control"}),
+            "linked_story": forms.Select(attrs={"class": "form-control"}),
             "due_date": forms.DateInput(
                 attrs={"type": "date", "class": "form-control"}
             ),
