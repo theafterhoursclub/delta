@@ -1,18 +1,14 @@
-# Kanban Module
+# Kanban App
 
 The `kanban` Django app provides the core functionality for project and task management.
 
 ## Models
 
-::: kanban.models.Task
+::: kanban.models
 
 ## Views
 
-- `kanban_board`: Displays the Kanban board with columns for each status.
-- `task_list`: Shows all tasks in a table.
-- `create_task`: Form to create a new task.
-- `edit_task`: Edit an existing task.
-- `reorder_tasks`: Handles AJAX requests to update task order and status.
+::: kanban.views
 
 ## Templates
 
