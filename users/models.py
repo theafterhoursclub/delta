@@ -16,7 +16,7 @@ class Team(models.Model):
     """Every team member must be part of a team, and a team must be part of an organisation"""
 
     name = models.CharField(max_length=100)
-    team = models.ForeignKey("Organisation", on_delete=models.CASCADE)
+    team = models.ForeignKey(Organisation, on_delete=models.CASCADE)
 
 
 class CustomUser(AbstractUser):
