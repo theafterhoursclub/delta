@@ -1,4 +1,5 @@
 {% extends "internal_base.html" %}
+{% load static  %}
 {% block internal %}
     <div class="row">
         <div class="col">
@@ -11,7 +12,15 @@
                             {% for field in form %}
                                 <div class="mb-3" id="field-{{ field.name }}">
                                     <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-                                    {{ field }}
+                                    {% if field.name == "description" %}
+                                        <textarea
+                                            id="id_description"
+                                            name="description"
+                                            class="form-control"
+                                        >{{ field.value|default_if_none:"" }}</textarea>
+                                    {% else %}
+                                        {{ field }}
+                                    {% endif %}
                                     {% if field.help_text %}
                                         <div class="form-text">{{ field.help_text }}</div>
                                     {% endif %}
@@ -30,7 +39,18 @@
             </div>
         </div>
     </div>
+    <script src="{% static 'tinymce/tinymce.min.js' %}"></script>
     <script>
+        tinymce.init({
+            selector: '#id_description',
+            license_key: 'gpl',
+            menubar: false,
+            plugins: 'lists', // Removed 'link' to avoid 404 error
+            toolbar: 'undo redo | bold italic underline | bullist numlist',
+            branding: false,
+            height: 250
+        });
+
         function toggleDueFields() {
             const taskType = document.getElementById("id_task_type").value.toLowerCase();
             const dueDateDiv = document.getElementById("field-due_date");
