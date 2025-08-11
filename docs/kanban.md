@@ -26,5 +26,3 @@ The `kanban` Django app provides the core functionality for project and task man
 
 - `colors.css`: Color scheme.
 - JS/CSS for AG Grid, Bootstrap, SortableJS.
-
-
