@@ -1,0 +1,114 @@
+{% load static %}
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>MI Builder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Plotly -->
+    <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+    <!-- Pyodide for in-browser Python (pandas runtime only) -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+    <style>
+      body { font-family: sans-serif; margin: 0; display: flex; height: 100vh; }
+      #sidebar { width: 260px; border-right: 1px solid #ddd; padding: 10px; overflow: auto; }
+      #main { flex: 1; display: flex; flex-direction: column; }
+      #top { display: flex; gap: 10px; padding: 10px; border-bottom: 1px solid #ddd; }
+      #drops { display: flex; gap: 10px; }
+      .drop { border: 1px dashed #999; padding: 8px; min-width: 120px; min-height: 40px; }
+      .field { padding: 4px 6px; background: #f3f3f3; margin: 4px 0; cursor: grab; }
+      #editor { width: 100%; height: 180px; }
+      #chart { flex: 1; }
+      #saveRow { padding: 10px; border-top: 1px solid #ddd; display: flex; gap: 8px; }
+      /* Upload panel */
+      #uploadPanel { padding: 20px; max-width: 560px; margin: 40px auto; border: 1px solid #ddd; border-radius: 6px; }
+      #uploadPanel h2 { margin-top: 0; }
+      #uploadPanel label { display:block; margin: 8px 0; }
+      #console { border-top: 1px solid #eee; background: #fafafa; padding: 8px; max-height: 160px; overflow: auto; }
+      #console strong { font-size: 12px; color: #555; }
+      #pyOut { white-space: pre-wrap; margin: 6px 0 0; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; }
+    </style>
+  </head>
+  <body>
+    {% if datasource %}
+    <div id="sidebar">
+      <h3>Fields</h3>
+      <div id="fields"></div>
+      <hr />
+      <div>
+        <label>Name <input id="vizName" type="text" style="width: 100%;" /></label>
+        <label>Chart
+          <select id="chartType" style="width: 100%;">
+            <option value="auto">Auto</option>
+            <option value="bar">Bar</option>
+            <option value="line">Line</option>
+            <option value="scatter">Scatter</option>
+          </select>
+        </label>
+      </div>
+    </div>
+    <div id="main">
+      <div id="top">
+        <div id="drops">
+          <div class="drop" data-role="x">Drop X</div>
+          <div class="drop" data-role="y">Drop Y</div>
+          <div class="drop" data-role="color">Drop Color</div>
+          <div class="drop" data-role="size">Drop Size</div>
+        </div>
+        <div style="margin-left:auto; display:flex; gap:8px;">
+          <button id="runBtn">Run Python</button>
+          <button id="renderBtn">Render DnD</button>
+        </div>
+      </div>
+      <textarea id="editor" spellcheck="false"># Server-side uses Polars; in-browser uses pandas.
+# You receive `df` (pandas DataFrame) built from a sampled dataset.
+# Set `out` to:
+#  - a pandas DataFrame -> the drag-and-drop chart will use these rows
+#  - a Plotly figure dict -> the figure will render directly (DnD roles ignored)
+# Example:
+# out = df.groupby('some_col')['value'].sum().reset_index()
+</textarea>
+      <div id="console">
+        <strong>Output</strong>
+        <pre id="pyOut"></pre>
+      </div>
+      <div id="chart"></div>
+      <div id="saveRow">
+        <button id="saveBtn">Save</button>
+        <span id="status"></span>
+      </div>
+    </div>
+    {% else %}
+    <div id="uploadPanel">
+      <h2>Add a DataSource</h2>
+      <p>Upload a CSV or Parquet file to start building visuals.</p>
+      <label>Name
+        <input id="dsName" type="text" placeholder="e.g. Sales 2024" style="width:100%;" />
+      </label>
+      <label>Format
+        <select id="dsFormat" style="width:100%;">
+          <option value="">Auto-detect</option>
+          <option value="csv">CSV</option>
+          <option value="parquet">Parquet</option>
+        </select>
+      </label>
+      <label>File
+        <input id="dsFile" type="file" accept=".csv,.parquet" />
+      </label>
+      <div style="margin-top:12px; display:flex; gap:8px; align-items:center;">
+        <button id="uploadBtn">Upload</button>
+        <span id="uploadStatus"></span>
+      </div>
+    </div>
+    {% endif %}
+
+    <script>
+      window.MI_BOOT = {
+        datasourceId: {{ datasource.id|default:'null' }},
+        vizId: {{ visualization.id|default:'null' }},
+        initialViz: {{ visualization.id|yesno:"true,false"|lower }},
+      };
+    </script>
+    <script type="module" src="{% static 'mi/js/builder.js' %}"></script>
+  </body>
+</html>
