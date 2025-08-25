@@ -1,9 +1,8 @@
 from django.urls import path
-
-# ...import your user views here...
+from . import views
 
 urlpatterns = [
-    # Add user-related URL patterns here
-    # Example:
-    # path('profile/', views.profile, name='profile'),
+    path("signup/", views.signup_view, name="signup"),
+    path("create-organisation/", views.create_organisation, name="create_organisation"),
+    path("create-team/", views.create_team, name="create_team"),
 ]
